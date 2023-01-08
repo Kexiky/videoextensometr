@@ -41,3 +41,7 @@ while video.isOpened() and (frame is not None):
 
 video.release()
 cv2.destroyAllWindows()
+
+#Самый простой метод dic
+#Написать функцию визуализуализации
+#найти другие метрики

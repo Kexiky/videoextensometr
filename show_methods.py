@@ -6,3 +6,5 @@ def vectors_displacement(img1, vec, n_step):
     for i in np.range(n_step):
         plt.plot(vec[i, ])
     return 0
+
+#Методы трекинка частей изображения

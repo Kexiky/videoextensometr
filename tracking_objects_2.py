@@ -2,9 +2,21 @@ import cv2
 
 path_video1 = r'Video\video_2023-02-04_10-06-12.mp4'
 path_video2 = r'Video\м1 _ жёлтыйТ_4.avi'
+path_video1_result = r'Video\video_2023-02-04_10-06-12_rez.mp4'
+path_video2_result = r'Video\м1 _ жёлтыйТ_4_rez.avi'
 
 # Загрузка видеофайла
 cap = cv2.VideoCapture(path_video2)
+
+# получаем разрешение, fps и кодировку исходного видео-файла
+width = int(cap.get(cv2.CAP_PROP_FRAME_WIDTH))
+height = int(cap.get(cv2.CAP_PROP_FRAME_HEIGHT))
+fps = cap.get(cv2.CAP_PROP_FPS)
+codec = cv2.VideoWriter_fourcc(*'XVID')
+#codec = "".join([chr((int(codec) >> 8 * i) & 0xFF) for i in range(4)])
+print(codec)
+
+rez = cv2.VideoWriter(path_video2_result, codec, fps, (width, height))
 
 # Определение алгоритма трекинга
 feature_params = dict(maxCorners=10000, qualityLevel=0.2, minDistance=1, blockSize=1)
@@ -42,9 +54,11 @@ while True:
         frame = cv2.circle(frame, (int(a), int(b)), 3, (0, 0, 255), -1)
 
     # Отображение результата
-    cv2.imshow('frame', frame)
+    '''cv2.imshow('frame', frame)
     if cv2.waitKey(25) & 0xFF == ord('q'):
         break
+'''
+    rez.write(frame)
 
     # Обновление переменных
     prev_gray = gray.copy()
@@ -52,4 +66,5 @@ while True:
 
 # Освобождение ресурсов
 cap.release()
+rez.release()
 cv2.destroyAllWindows()
